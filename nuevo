@@ -1,0 +1,424 @@
+--// Kairox Hub - Final Fix v2
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local Lighting = game:GetService("Lighting")
+local LocalPlayer = Players.LocalPlayer
+
+--// LIMPIAR HUBS ANTIGUOS PRIMERO
+for _, gui in pairs(LocalPlayer.PlayerGui:GetChildren()) do
+    if gui:IsA("ScreenGui") then
+        -- Destruir cualquier hub antiguo (KairoxHub u otros)
+        if gui.Name:find("Hub") or gui.Name:find("hub") or gui.Name == "KairoxHub" then
+            gui:Destroy()
+        end
+    end
+end
+
+--// Limpiar blurs antiguos
+for _, effect in pairs(Lighting:GetChildren()) do
+    if effect:IsA("BlurEffect") then
+        effect:Destroy()
+    end
+end
+
+--// ScreenGui
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "KairoxHub"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+
+--// Blur
+local Blur = Instance.new("BlurEffect", Lighting)
+Blur.Size = 0
+
+--// "Ejecutando..." - Solo texto, sin fondo
+local LoadingText = Instance.new("TextLabel", ScreenGui)
+LoadingText.Name = "LoadingText"
+LoadingText.Size = UDim2.new(0, 400, 0, 80)
+LoadingText.Position = UDim2.new(0.5, -200, 0.5, -40)
+LoadingText.BackgroundTransparency = 1
+LoadingText.Text = "⏳ Ejecutando..."
+LoadingText.TextColor3 = Color3.fromRGB(255, 255, 255)
+LoadingText.TextSize = 48
+LoadingText.Font = Enum.Font.GothamBold
+LoadingText.TextStrokeTransparency = 0.8
+LoadingText.ZIndex = 1000
+
+--// Frame Principal (inicia oculto)
+local MainFrame = Instance.new("Frame", ScreenGui)
+MainFrame.Name = "MainFrame"
+MainFrame.Size = UDim2.new(0, 440, 0, 400)
+MainFrame.Position = UDim2.new(0.5, -220, 0.5, -200)
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+MainFrame.BackgroundTransparency = 1
+MainFrame.Visible = false
+Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 16)
+
+--// Logo K
+local LogoText = Instance.new("TextLabel", MainFrame)
+LogoText.Size = UDim2.new(0, 80, 0, 80)
+LogoText.Position = UDim2.new(0, 20, 0, 10)
+LogoText.BackgroundTransparency = 1
+LogoText.Text = "🅺"
+LogoText.TextColor3 = Color3.fromRGB(220, 50, 50)
+LogoText.TextSize = 60
+LogoText.Font = Enum.Font.GothamBold
+LogoText.TextTransparency = 1
+
+--// Títulos
+local TitleText = Instance.new("TextLabel", MainFrame)
+TitleText.Size = UDim2.new(1, -120, 0, 40)
+TitleText.Position = UDim2.new(0, 110, 0, 15)
+TitleText.BackgroundTransparency = 1
+TitleText.Text = "Kairox Hub"
+TitleText.TextColor3 = Color3.fromRGB(255, 255, 255)
+TitleText.TextSize = 32
+TitleText.Font = Enum.Font.GothamBold
+TitleText.TextXAlignment = Enum.TextXAlignment.Left
+TitleText.TextTransparency = 1
+
+local SubtitleText = Instance.new("TextLabel", MainFrame)
+SubtitleText.Size = UDim2.new(1, -120, 0, 20)
+SubtitleText.Position = UDim2.new(0, 110, 0, 50)
+SubtitleText.BackgroundTransparency = 1
+SubtitleText.Text = "Premium Script Hub"
+SubtitleText.TextColor3 = Color3.fromRGB(100, 150, 255)
+SubtitleText.TextSize = 14
+SubtitleText.Font = Enum.Font.Gotham
+SubtitleText.TextXAlignment = Enum.TextXAlignment.Left
+SubtitleText.TextTransparency = 1
+
+--// Botón X - X BLANCA
+local CloseBtn = Instance.new("TextButton", MainFrame)
+CloseBtn.Name = "CloseBtn"
+CloseBtn.Size = UDim2.new(0, 40, 0, 40)
+CloseBtn.Position = UDim2.new(1, -50, 0, 10)
+CloseBtn.BackgroundTransparency = 1
+CloseBtn.Text = "X"
+CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseBtn.TextSize = 28
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.TextTransparency = 1
+
+--// Contenedor Botones
+local ButtonContainer = Instance.new("Frame", MainFrame)
+ButtonContainer.Size = UDim2.new(1, -40, 1, -140)
+ButtonContainer.Position = UDim2.new(0, 20, 0, 100)
+ButtonContainer.BackgroundTransparency = 1
+
+-- Botón Grupo
+local GroupBtn = Instance.new("TextButton", ButtonContainer)
+GroupBtn.Size = UDim2.new(1, 0, 0, 60)
+GroupBtn.Position = UDim2.new(0, 0, 0, 0)
+GroupBtn.BackgroundColor3 = Color3.fromRGB(35, 45, 70)
+GroupBtn.Text = "🔥 UNIRSE AL GRUPO (SCRIPT AQUÍ)"
+GroupBtn.TextColor3 = Color3.fromRGB(255, 200, 50)
+GroupBtn.TextSize = 16
+GroupBtn.Font = Enum.Font.GothamBold
+GroupBtn.BackgroundTransparency = 1
+GroupBtn.TextTransparency = 1
+Instance.new("UICorner", GroupBtn).CornerRadius = UDim.new(0, 10)
+
+-- Botón Discord
+local DiscordBtn = Instance.new("TextButton", ButtonContainer)
+DiscordBtn.Size = UDim2.new(1, 0, 0, 60)
+DiscordBtn.Position = UDim2.new(0, 0, 0, 75)
+DiscordBtn.BackgroundColor3 = Color3.fromRGB(45, 50, 70)
+DiscordBtn.Text = "💬 Unirse al Servidor de Discord"
+DiscordBtn.TextColor3 = Color3.new(1, 1, 1)
+DiscordBtn.TextSize = 16
+DiscordBtn.Font = Enum.Font.GothamBold
+DiscordBtn.BackgroundTransparency = 1
+DiscordBtn.TextTransparency = 1
+Instance.new("UICorner", DiscordBtn).CornerRadius = UDim.new(0, 10)
+
+-- Botón Script
+local ScriptBtn = Instance.new("TextButton", ButtonContainer)
+ScriptBtn.Size = UDim2.new(1, 0, 0, 65)
+ScriptBtn.Position = UDim2.new(0, 0, 1, -70)
+ScriptBtn.BackgroundColor3 = Color3.fromRGB(0, 140, 255)
+ScriptBtn.Text = "🔓 OBTENER LINK DEL SCRIPT"
+ScriptBtn.TextColor3 = Color3.new(1, 1, 1)
+ScriptBtn.TextSize = 18
+ScriptBtn.Font = Enum.Font.GothamBold
+ScriptBtn.BackgroundTransparency = 1
+ScriptBtn.TextTransparency = 1
+Instance.new("UICorner", ScriptBtn).CornerRadius = UDim.new(0, 12)
+
+--// Mini Botón
+local MiniBtn = Instance.new("TextButton", ScreenGui)
+MiniBtn.Name = "MiniBtn"
+MiniBtn.Size = UDim2.new(0, 60, 0, 60)
+MiniBtn.Position = UDim2.new(0, 20, 0.5, -30)
+MiniBtn.BackgroundColor3 = Color3.fromRGB(0, 140, 255)
+MiniBtn.Text = "📋"
+MiniBtn.TextSize = 28
+MiniBtn.Font = Enum.Font.GothamBold
+MiniBtn.Visible = false
+Instance.new("UICorner", MiniBtn).CornerRadius = UDim.new(1, 0)
+
+--// Modal de Confirmación
+local Modal = Instance.new("Frame", ScreenGui)
+Modal.Name = "Modal"
+Modal.Size = UDim2.new(1, 0, 1, 0)
+Modal.BackgroundColor3 = Color3.new(0, 0, 0)
+Modal.BackgroundTransparency = 1
+Modal.Visible = false
+Modal.ZIndex = 200
+
+local ConfirmBox = Instance.new("Frame", Modal)
+ConfirmBox.Size = UDim2.new(0, 300, 0, 160)
+ConfirmBox.Position = UDim2.new(0.5, -150, 0.5, -80)
+ConfirmBox.BackgroundColor3 = Color3.fromRGB(35, 35, 45)
+ConfirmBox.BackgroundTransparency = 1
+ConfirmBox.ZIndex = 201
+Instance.new("UICorner", ConfirmBox).CornerRadius = UDim.new(0, 12)
+
+local ConfirmTitle = Instance.new("TextLabel", ConfirmBox)
+ConfirmTitle.Size = UDim2.new(1, 0, 0, 30)
+ConfirmTitle.Position = UDim2.new(0, 0, 0, 20)
+ConfirmTitle.BackgroundTransparency = 1
+ConfirmTitle.Text = "¿Cerrar Script?"
+ConfirmTitle.TextColor3 = Color3.new(1, 1, 1)
+ConfirmTitle.TextSize = 22
+ConfirmTitle.Font = Enum.Font.GothamBold
+ConfirmTitle.TextTransparency = 1
+ConfirmTitle.ZIndex = 202
+
+local ConfirmTxt = Instance.new("TextLabel", ConfirmBox)
+ConfirmTxt.Size = UDim2.new(1, -40, 0, 40)
+ConfirmTxt.Position = UDim2.new(0, 20, 0, 55)
+ConfirmTxt.BackgroundTransparency = 1
+ConfirmTxt.Text = "¿Seguro que quieres cerrar el script?"
+ConfirmTxt.TextColor3 = Color3.fromRGB(180, 180, 180)
+ConfirmTxt.TextSize = 14
+ConfirmTxt.Font = Enum.Font.Gotham
+ConfirmTxt.TextWrapped = true
+ConfirmTxt.TextTransparency = 1
+ConfirmTxt.ZIndex = 202
+
+local YesBtn = Instance.new("TextButton", ConfirmBox)
+YesBtn.Size = UDim2.new(0.42, 0, 0, 40)
+YesBtn.Position = UDim2.new(0.05, 0, 0, 105)
+YesBtn.BackgroundColor3 = Color3.fromRGB(200, 60, 60)
+YesBtn.Text = "Sí, cerrar"
+YesBtn.TextColor3 = Color3.new(1, 1, 1)
+YesBtn.TextSize = 15
+YesBtn.Font = Enum.Font.GothamBold
+YesBtn.BackgroundTransparency = 1
+YesBtn.TextTransparency = 1
+YesBtn.ZIndex = 202
+Instance.new("UICorner", YesBtn).CornerRadius = UDim.new(0, 8)
+
+local NoBtn = Instance.new("TextButton", ConfirmBox)
+NoBtn.Size = UDim2.new(0.42, 0, 0, 40)
+NoBtn.Position = UDim2.new(0.53, 0, 0, 105)
+NoBtn.BackgroundColor3 = Color3.fromRGB(60, 180, 60)
+NoBtn.Text = "No, cancelar"
+NoBtn.TextColor3 = Color3.new(1, 1, 1)
+NoBtn.TextSize = 15
+NoBtn.Font = Enum.Font.GothamBold
+NoBtn.BackgroundTransparency = 1
+NoBtn.TextTransparency = 1
+NoBtn.ZIndex = 202
+Instance.new("UICorner", NoBtn).CornerRadius = UDim.new(0, 8)
+
+--// Funciones
+local function Tween(obj, props, dur, style)
+    TweenService:Create(obj, TweenInfo.new(dur or 0.4, style or Enum.EasingStyle.Quart), props):Play()
+end
+
+local function Notify(title, text)
+    pcall(function()
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = title,
+            Text = text,
+            Duration = 3
+        })
+    end)
+end
+
+-- Variables de estado
+local isMinimized = false
+local isOpen = true
+
+-- Animación de Apertura
+local function OpenGUI()
+    task.wait(1.2)
+    
+    Tween(LoadingText, {TextTransparency = 1}, 0.4)
+    task.wait(0.4)
+    LoadingText:Destroy()
+    
+    MainFrame.Visible = true
+    Tween(Blur, {Size = 24}, 0.5)
+    Tween(MainFrame, {BackgroundTransparency = 0}, 0.3)
+    task.wait(0.1)
+    
+    Tween(LogoText, {TextTransparency = 0}, 0.3)
+    Tween(TitleText, {TextTransparency = 0}, 0.3)
+    Tween(SubtitleText, {TextTransparency = 0}, 0.3)
+    Tween(CloseBtn, {TextTransparency = 0}, 0.3)
+    task.wait(0.1)
+    Tween(GroupBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.3)
+    task.wait(0.1)
+    Tween(DiscordBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.3)
+    task.wait(0.1)
+    Tween(ScriptBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.3)
+    
+    isOpen = true
+    Notify("Kairox Hub", "Presiona CTRL para ocultar/mostrar")
+end
+
+-- Minimizar (oculta el hub)
+local function Minimize()
+    if isMinimized or not isOpen then return end
+    isMinimized = true
+    
+    Tween(Blur, {Size = 0}, 0.3)
+    Tween(MainFrame, {BackgroundTransparency = 1}, 0.3)
+    Tween(LogoText, {TextTransparency = 1}, 0.2)
+    Tween(TitleText, {TextTransparency = 1}, 0.2)
+    Tween(SubtitleText, {TextTransparency = 1}, 0.2)
+    Tween(CloseBtn, {TextTransparency = 1}, 0.2)
+    Tween(GroupBtn, {BackgroundTransparency = 1, TextTransparency = 1}, 0.2)
+    Tween(DiscordBtn, {BackgroundTransparency = 1, TextTransparency = 1}, 0.2)
+    Tween(ScriptBtn, {BackgroundTransparency = 1, TextTransparency = 1}, 0.2)
+    
+    task.wait(0.4)
+    MainFrame.Visible = false
+    
+    MiniBtn.Visible = true
+    MiniBtn.Size = UDim2.new(0, 0, 0, 0)
+    Tween(MiniBtn, {Size = UDim2.new(0, 60, 0, 60)}, 0.3, Enum.EasingStyle.Back)
+end
+
+-- Restaurar (muestra el hub)
+local function Restore()
+    if not isMinimized or not isOpen then return end
+    isMinimized = false
+    
+    Tween(MiniBtn, {Size = UDim2.new(0, 0, 0, 0)}, 0.2)
+    task.wait(0.2)
+    MiniBtn.Visible = false
+    
+    MainFrame.Visible = true
+    Tween(Blur, {Size = 24}, 0.4)
+    Tween(MainFrame, {BackgroundTransparency = 0}, 0.4)
+    Tween(LogoText, {TextTransparency = 0}, 0.3)
+    Tween(TitleText, {TextTransparency = 0}, 0.3)
+    Tween(SubtitleText, {TextTransparency = 0}, 0.3)
+    Tween(CloseBtn, {TextTransparency = 0}, 0.3)
+    Tween(GroupBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.3)
+    Tween(DiscordBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.3)
+    Tween(ScriptBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.3)
+end
+
+-- Toggle con CTRL
+local function ToggleHub()
+    if not isOpen then return end
+    
+    if isMinimized then
+        Restore()
+    else
+        Minimize()
+    end
+end
+
+-- Modal
+local function ShowModal()
+    Modal.Visible = true
+    Modal.BackgroundTransparency = 1
+    ConfirmBox.BackgroundTransparency = 1
+    ConfirmTitle.TextTransparency = 1
+    ConfirmTxt.TextTransparency = 1
+    YesBtn.BackgroundTransparency = 1
+    YesBtn.TextTransparency = 1
+    NoBtn.BackgroundTransparency = 1
+    NoBtn.TextTransparency = 1
+    
+    Tween(Modal, {BackgroundTransparency = 0.7}, 0.2)
+    Tween(ConfirmBox, {BackgroundTransparency = 0}, 0.3)
+    task.wait(0.1)
+    Tween(ConfirmTitle, {TextTransparency = 0}, 0.2)
+    Tween(ConfirmTxt, {TextTransparency = 0}, 0.2)
+    Tween(YesBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.2)
+    Tween(NoBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.2)
+end
+
+local function HideModal()
+    Tween(ConfirmTitle, {TextTransparency = 1}, 0.2)
+    Tween(ConfirmTxt, {TextTransparency = 1}, 0.2)
+    Tween(YesBtn, {BackgroundTransparency = 1, TextTransparency = 1}, 0.2)
+    Tween(NoBtn, {BackgroundTransparency = 1, TextTransparency = 1}, 0.2)
+    task.wait(0.1)
+    Tween(ConfirmBox, {BackgroundTransparency = 1}, 0.2)
+    Tween(Modal, {BackgroundTransparency = 1}, 0.2)
+    task.wait(0.3)
+    Modal.Visible = false
+end
+
+-- Cerrar todo definitivamente
+local function CloseAll()
+    isOpen = false
+    HideModal()
+    task.wait(0.3)
+    
+    Tween(Blur, {Size = 0}, 0.3)
+    Tween(MainFrame, {BackgroundTransparency = 1}, 0.3)
+    Tween(LogoText, {TextTransparency = 1}, 0.2)
+    Tween(TitleText, {TextTransparency = 1}, 0.2)
+    Tween(SubtitleText, {TextTransparency = 1}, 0.2)
+    Tween(CloseBtn, {TextTransparency = 1}, 0.2)
+    Tween(GroupBtn, {BackgroundTransparency = 1, TextTransparency = 1}, 0.2)
+    Tween(DiscordBtn, {BackgroundTransparency = 1, TextTransparency = 1}, 0.2)
+    Tween(ScriptBtn, {BackgroundTransparency = 1, TextTransparency = 1}, 0.2)
+    
+    task.wait(0.5)
+    
+    ScreenGui:Destroy()
+    Blur:Destroy()
+    
+    Notify("Kairox Hub", "Script cerrado. ¡Hasta pronto!")
+end
+
+--// Eventos
+CloseBtn.MouseButton1Click:Connect(ShowModal)
+YesBtn.MouseButton1Click:Connect(CloseAll)
+NoBtn.MouseButton1Click:Connect(HideModal)
+MiniBtn.MouseButton1Click:Connect(Restore)
+
+-- CTRL - Toggle perfecto
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    
+    if input.KeyCode == Enum.KeyCode.LeftControl or input.KeyCode == Enum.KeyCode.RightControl then
+        ToggleHub()
+    end
+end)
+
+-- Botones
+GroupBtn.MouseButton1Click:Connect(function()
+    GroupBtn.BackgroundColor3 = Color3.fromRGB(50, 200, 100)
+    GroupBtn.Text = "✅ Enlace copiado"
+    if setclipboard then setclipboard("https://roblox.cd/communities/4478495505/#!/about") end
+    Notify("Grupo Roblox", "Link copiado al portapapeles")
+    task.wait(2)
+    GroupBtn.BackgroundColor3 = Color3.fromRGB(35, 45, 70)
+    GroupBtn.Text = "🔥 UNIRSE AL GRUPO (SCRIPT AQUÍ)"
+end)
+
+DiscordBtn.MouseButton1Click:Connect(function()
+    DiscordBtn.BackgroundColor3 = Color3.fromRGB(50, 200, 100)
+    DiscordBtn.Text = "✅ Enlace copiado"
+    if setclipboard then setclipboard("https://discord.gg/7vT2yA6BhV") end
+    Notify("Discord", "Invitación copiada")
+    task.wait(2.5)
+    DiscordBtn.BackgroundColor3 = Color3.fromRGB(45, 50, 70)
+    DiscordBtn.Text = "💬 Unirse al Servidor de Discord"
+end)
+
+ScriptBtn.MouseButton1Click:Connect(function()
+    Notify("Información", "El script se encuentra en el grupo de Roblox")
+end)
