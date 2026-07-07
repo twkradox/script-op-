@@ -422,3 +422,5 @@ end)
 ScriptBtn.MouseButton1Click:Connect(function()
     Notify("Información", "El script se encuentra en el grupo de Roblox")
 end)
+
+OpenGUI()
