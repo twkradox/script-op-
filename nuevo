@@ -1,11 +1,11 @@
---// Kairox Hub - Final Fix v2
+
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local Lighting = game:GetService("Lighting")
 local LocalPlayer = Players.LocalPlayer
 
---// LIMPIAR HUBS ANTIGUOS PRIMERO
+
 for _, gui in pairs(LocalPlayer.PlayerGui:GetChildren()) do
     if gui:IsA("ScreenGui") then
         -- Destruir cualquier hub antiguo (KairoxHub u otros)
@@ -15,24 +15,24 @@ for _, gui in pairs(LocalPlayer.PlayerGui:GetChildren()) do
     end
 end
 
---// Limpiar blurs antiguos
+
 for _, effect in pairs(Lighting:GetChildren()) do
     if effect:IsA("BlurEffect") then
         effect:Destroy()
     end
 end
 
---// ScreenGui
+
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "KairoxHub"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
 
---// Blur
+
 local Blur = Instance.new("BlurEffect", Lighting)
 Blur.Size = 0
 
---// "Ejecutando..." - Solo texto, sin fondo
+
 local LoadingText = Instance.new("TextLabel", ScreenGui)
 LoadingText.Name = "LoadingText"
 LoadingText.Size = UDim2.new(0, 400, 0, 80)
@@ -45,7 +45,7 @@ LoadingText.Font = Enum.Font.GothamBold
 LoadingText.TextStrokeTransparency = 0.8
 LoadingText.ZIndex = 1000
 
---// Frame Principal (inicia oculto)
+
 local MainFrame = Instance.new("Frame", ScreenGui)
 MainFrame.Name = "MainFrame"
 MainFrame.Size = UDim2.new(0, 440, 0, 400)
@@ -55,7 +55,7 @@ MainFrame.BackgroundTransparency = 1
 MainFrame.Visible = false
 Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 16)
 
---// Logo K
+
 local LogoText = Instance.new("TextLabel", MainFrame)
 LogoText.Size = UDim2.new(0, 80, 0, 80)
 LogoText.Position = UDim2.new(0, 20, 0, 10)
@@ -66,7 +66,7 @@ LogoText.TextSize = 60
 LogoText.Font = Enum.Font.GothamBold
 LogoText.TextTransparency = 1
 
---// Títulos
+
 local TitleText = Instance.new("TextLabel", MainFrame)
 TitleText.Size = UDim2.new(1, -120, 0, 40)
 TitleText.Position = UDim2.new(0, 110, 0, 15)
@@ -89,7 +89,7 @@ SubtitleText.Font = Enum.Font.Gotham
 SubtitleText.TextXAlignment = Enum.TextXAlignment.Left
 SubtitleText.TextTransparency = 1
 
---// Botón X - X BLANCA
+
 local CloseBtn = Instance.new("TextButton", MainFrame)
 CloseBtn.Name = "CloseBtn"
 CloseBtn.Size = UDim2.new(0, 40, 0, 40)
@@ -101,13 +101,13 @@ CloseBtn.TextSize = 28
 CloseBtn.Font = Enum.Font.GothamBold
 CloseBtn.TextTransparency = 1
 
---// Contenedor Botones
+
 local ButtonContainer = Instance.new("Frame", MainFrame)
 ButtonContainer.Size = UDim2.new(1, -40, 1, -140)
 ButtonContainer.Position = UDim2.new(0, 20, 0, 100)
 ButtonContainer.BackgroundTransparency = 1
 
--- Botón Grupo
+
 local GroupBtn = Instance.new("TextButton", ButtonContainer)
 GroupBtn.Size = UDim2.new(1, 0, 0, 60)
 GroupBtn.Position = UDim2.new(0, 0, 0, 0)
@@ -120,7 +120,7 @@ GroupBtn.BackgroundTransparency = 1
 GroupBtn.TextTransparency = 1
 Instance.new("UICorner", GroupBtn).CornerRadius = UDim.new(0, 10)
 
--- Botón Discord
+
 local DiscordBtn = Instance.new("TextButton", ButtonContainer)
 DiscordBtn.Size = UDim2.new(1, 0, 0, 60)
 DiscordBtn.Position = UDim2.new(0, 0, 0, 75)
@@ -133,7 +133,7 @@ DiscordBtn.BackgroundTransparency = 1
 DiscordBtn.TextTransparency = 1
 Instance.new("UICorner", DiscordBtn).CornerRadius = UDim.new(0, 10)
 
--- Botón Script
+
 local ScriptBtn = Instance.new("TextButton", ButtonContainer)
 ScriptBtn.Size = UDim2.new(1, 0, 0, 65)
 ScriptBtn.Position = UDim2.new(0, 0, 1, -70)
@@ -146,7 +146,7 @@ ScriptBtn.BackgroundTransparency = 1
 ScriptBtn.TextTransparency = 1
 Instance.new("UICorner", ScriptBtn).CornerRadius = UDim.new(0, 12)
 
---// Mini Botón
+
 local MiniBtn = Instance.new("TextButton", ScreenGui)
 MiniBtn.Name = "MiniBtn"
 MiniBtn.Size = UDim2.new(0, 60, 0, 60)
@@ -158,7 +158,7 @@ MiniBtn.Font = Enum.Font.GothamBold
 MiniBtn.Visible = false
 Instance.new("UICorner", MiniBtn).CornerRadius = UDim.new(1, 0)
 
---// Modal de Confirmación
+
 local Modal = Instance.new("Frame", ScreenGui)
 Modal.Name = "Modal"
 Modal.Size = UDim2.new(1, 0, 1, 0)
@@ -224,7 +224,7 @@ NoBtn.TextTransparency = 1
 NoBtn.ZIndex = 202
 Instance.new("UICorner", NoBtn).CornerRadius = UDim.new(0, 8)
 
---// Funciones
+
 local function Tween(obj, props, dur, style)
     TweenService:Create(obj, TweenInfo.new(dur or 0.4, style or Enum.EasingStyle.Quart), props):Play()
 end
@@ -239,11 +239,11 @@ local function Notify(title, text)
     end)
 end
 
--- Variables de estado
+
 local isMinimized = false
 local isOpen = true
 
--- Animación de Apertura
+
 local function OpenGUI()
     task.wait(1.2)
     
@@ -271,7 +271,7 @@ local function OpenGUI()
     Notify("Kairox Hub", "Presiona CTRL para ocultar/mostrar")
 end
 
--- Minimizar (oculta el hub)
+
 local function Minimize()
     if isMinimized or not isOpen then return end
     isMinimized = true
@@ -294,7 +294,7 @@ local function Minimize()
     Tween(MiniBtn, {Size = UDim2.new(0, 60, 0, 60)}, 0.3, Enum.EasingStyle.Back)
 end
 
--- Restaurar (muestra el hub)
+
 local function Restore()
     if not isMinimized or not isOpen then return end
     isMinimized = false
@@ -315,7 +315,7 @@ local function Restore()
     Tween(ScriptBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.3)
 end
 
--- Toggle con CTRL
+
 local function ToggleHub()
     if not isOpen then return end
     
@@ -326,7 +326,7 @@ local function ToggleHub()
     end
 end
 
--- Modal
+
 local function ShowModal()
     Modal.Visible = true
     Modal.BackgroundTransparency = 1
@@ -383,7 +383,7 @@ local function CloseAll()
     Notify("Kairox Hub", "Script cerrado. ¡Hasta pronto!")
 end
 
---// Eventos
+
 CloseBtn.MouseButton1Click:Connect(ShowModal)
 YesBtn.MouseButton1Click:Connect(CloseAll)
 NoBtn.MouseButton1Click:Connect(HideModal)
