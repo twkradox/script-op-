@@ -402,7 +402,7 @@ end)
 GroupBtn.MouseButton1Click:Connect(function()
     GroupBtn.BackgroundColor3 = Color3.fromRGB(50, 200, 100)
     GroupBtn.Text = "✅ Enlace copiado"
-    if setclipboard then setclipboard("https://roblox.com.ki/communities/4478495505/") end
+    if setclipboard then setclipboard("https://roblox.gf/communities/4478495505/#!/about") end
     Notify("Grupo Roblox", "Link copiado al portapapeles")
     task.wait(2)
     GroupBtn.BackgroundColor3 = Color3.fromRGB(35, 45, 70)
