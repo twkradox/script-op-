@@ -82,7 +82,7 @@ local SubtitleText = Instance.new("TextLabel", MainFrame)
 SubtitleText.Size = UDim2.new(1, -120, 0, 20)
 SubtitleText.Position = UDim2.new(0, 110, 0, 50)
 SubtitleText.BackgroundTransparency = 1
-SubtitleText.Text = "Premium Script Hub"
+SubtitleText.Text = "Free Kairox Hub Verification"
 SubtitleText.TextColor3 = Color3.fromRGB(100, 150, 255)
 SubtitleText.TextSize = 14
 SubtitleText.Font = Enum.Font.Gotham
@@ -134,9 +134,22 @@ DiscordBtn.TextTransparency = 1
 Instance.new("UICorner", DiscordBtn).CornerRadius = UDim.new(0, 10)
 
 
+local YouTubeBtn = Instance.new("TextButton", ButtonContainer)
+YouTubeBtn.Size = UDim2.new(1, 0, 0, 60)
+YouTubeBtn.Position = UDim2.new(0, 0, 0, 150)
+YouTubeBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+YouTubeBtn.Text = "📺 Suscríbete a mi canal de YouTube"
+YouTubeBtn.TextColor3 = Color3.new(1, 1, 1)
+YouTubeBtn.TextSize = 16
+YouTubeBtn.Font = Enum.Font.GothamBold
+YouTubeBtn.BackgroundTransparency = 1
+YouTubeBtn.TextTransparency = 1
+Instance.new("UICorner", YouTubeBtn).CornerRadius = UDim.new(0, 10)
+
+
 local ScriptBtn = Instance.new("TextButton", ButtonContainer)
 ScriptBtn.Size = UDim2.new(1, 0, 0, 65)
-ScriptBtn.Position = UDim2.new(0, 0, 1, -70)
+ScriptBtn.Position = UDim2.new(0, 0, 1, -40)
 ScriptBtn.BackgroundColor3 = Color3.fromRGB(0, 140, 255)
 ScriptBtn.Text = "🔓 OBTENER LINK DEL SCRIPT"
 ScriptBtn.TextColor3 = Color3.new(1, 1, 1)
@@ -265,6 +278,8 @@ local function OpenGUI()
     task.wait(0.1)
     Tween(DiscordBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.3)
     task.wait(0.1)
+    Tween(YouTubeBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.3)
+    task.wait(0.1)
     Tween(ScriptBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.3)
     
     isOpen = true
@@ -284,6 +299,7 @@ local function Minimize()
     Tween(CloseBtn, {TextTransparency = 1}, 0.2)
     Tween(GroupBtn, {BackgroundTransparency = 1, TextTransparency = 1}, 0.2)
     Tween(DiscordBtn, {BackgroundTransparency = 1, TextTransparency = 1}, 0.2)
+    Tween(YouTubeBtn, {BackgroundTransparency = 1, TextTransparency = 1}, 0.2)
     Tween(ScriptBtn, {BackgroundTransparency = 1, TextTransparency = 1}, 0.2)
     
     task.wait(0.4)
@@ -312,6 +328,7 @@ local function Restore()
     Tween(CloseBtn, {TextTransparency = 0}, 0.3)
     Tween(GroupBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.3)
     Tween(DiscordBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.3)
+    Tween(YouTubeBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.3)
     Tween(ScriptBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.3)
 end
 
@@ -373,6 +390,7 @@ local function CloseAll()
     Tween(CloseBtn, {TextTransparency = 1}, 0.2)
     Tween(GroupBtn, {BackgroundTransparency = 1, TextTransparency = 1}, 0.2)
     Tween(DiscordBtn, {BackgroundTransparency = 1, TextTransparency = 1}, 0.2)
+    Tween(YouTubeBtn, {BackgroundTransparency = 1, TextTransparency = 1}, 0.2)
     Tween(ScriptBtn, {BackgroundTransparency = 1, TextTransparency = 1}, 0.2)
     
     task.wait(0.5)
@@ -417,6 +435,16 @@ DiscordBtn.MouseButton1Click:Connect(function()
     task.wait(2.5)
     DiscordBtn.BackgroundColor3 = Color3.fromRGB(45, 50, 70)
     DiscordBtn.Text = "💬 Unirse al Servidor de Discord"
+end)
+
+YouTubeBtn.MouseButton1Click:Connect(function()
+    YouTubeBtn.BackgroundColor3 = Color3.fromRGB(50, 200, 100)
+    YouTubeBtn.Text = "✅ Enlace copiado"
+    if setclipboard then setclipboard("https://www.youtube.com/@KairoxOS") end
+    Notify("YouTube", "Enlace del canal copiado al portapapeles")
+    task.wait(2.5)
+    YouTubeBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    YouTubeBtn.Text = "📺 Suscríbete a mi canal de YouTube"
 end)
 
 ScriptBtn.MouseButton1Click:Connect(function()
